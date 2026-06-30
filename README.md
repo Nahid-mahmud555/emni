@@ -1,1 +1,2 @@
 # emni
+details in bd
