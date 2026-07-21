@@ -1,0 +1,761 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>My bag. — From Campus Street to Gallery Wall</title>
+<meta name="description" content="Heavy cotton canvas tote bags that carry 10kg+ of daily life, then frame into gallery-worthy wall art. 100% biodegradable, unbleached cotton. Dhaka pilot batch.">
+
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;0,800;1,500;1,600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    --ink:#0a0910;
+    --ink-2:#100e19;
+    --canvas:#ede6d6;
+    --canvas-dim:#c9c2b0;
+    --pink:#ff3ea5;
+    --violet:#8b5cf6;
+    --gold:#ffb020;
+    --cyan:#22d3ee;
+    --line: rgba(237,230,214,0.14);
+    --line-soft: rgba(237,230,214,0.08);
+  }
+
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:
+      radial-gradient(60vw 60vw at 82% -10%, rgba(139,92,246,0.20), transparent 60%),
+      radial-gradient(50vw 50vw at -10% 20%, rgba(255,62,165,0.14), transparent 60%),
+      radial-gradient(40vw 40vw at 50% 100%, rgba(34,211,238,0.10), transparent 60%),
+      var(--ink);
+    color: var(--canvas);
+    font-family:'Plus Jakarta Sans', ui-sans-serif, system-ui, sans-serif;
+    overflow-x:hidden;
+    -webkit-font-smoothing:antialiased;
+  }
+  .font-display{ font-family:'Playfair Display', serif; }
+
+  ::selection{ background: var(--pink); color:#0a0910; }
+
+  /* ---------- custom cursor ---------- */
+  .has-custom-cursor, .has-custom-cursor a, .has-custom-cursor button, .has-custom-cursor .tilt-card{ cursor:none; }
+  #cursor-dot, #cursor-ring{
+    position:fixed; top:0; left:0; pointer-events:none; z-index:9999;
+    border-radius:50%; transform:translate(-50%,-50%);
+    mix-blend-mode:screen; will-change:transform;
+  }
+  #cursor-dot{ width:7px; height:7px; background:var(--canvas); }
+  #cursor-ring{
+    width:34px; height:34px;
+    background: radial-gradient(circle, rgba(255,62,165,0.55), rgba(139,92,246,0.35) 45%, transparent 72%);
+    filter: blur(2px);
+    transition: width .25s ease, height .25s ease, opacity .25s ease;
+  }
+  .cursor-grow #cursor-ring{ width:64px; height:64px; }
+
+  /* ---------- utility text gradients ---------- */
+  .grad-pv{ background:linear-gradient(92deg, var(--pink), var(--violet)); -webkit-background-clip:text; background-clip:text; color:transparent; }
+  .grad-gc{ background:linear-gradient(92deg, var(--gold), var(--cyan)); -webkit-background-clip:text; background-clip:text; color:transparent; }
+  .grad-all{ background:linear-gradient(100deg, var(--pink), var(--violet) 35%, var(--cyan) 68%, var(--gold)); -webkit-background-clip:text; background-clip:text; color:transparent; }
+
+  /* ---------- marquee ---------- */
+  .marquee-track{
+    display:flex; width:max-content;
+    animation: marquee 26s linear infinite;
+  }
+  @keyframes marquee{ from{ transform:translateX(0);} to{ transform:translateX(-50%);} }
+  .marquee-item{ display:flex; align-items:center; gap:.6rem; padding:0 1.75rem; white-space:nowrap; }
+  .marquee-dot{ width:5px; height:5px; border-radius:50%; background:var(--gold); box-shadow:0 0 8px var(--gold); }
+
+  /* ---------- glass ---------- */
+  .glass{
+    background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02));
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+    border:1px solid var(--line);
+  }
+  .glass-strong{
+    background: linear-gradient(180deg, rgba(255,255,255,0.09), rgba(255,255,255,0.025));
+    backdrop-filter: blur(22px);
+    -webkit-backdrop-filter: blur(22px);
+    border:1px solid var(--line);
+  }
+
+  /* glow border wrapper: p-[1px] gradient border */
+  .glow-border{
+    position:relative; border-radius:inherit;
+  }
+  .glow-border::before{
+    content:''; position:absolute; inset:0; border-radius:inherit; padding:1px;
+    background:linear-gradient(120deg, rgba(255,62,165,.55), rgba(139,92,246,.45), rgba(34,211,238,.4), rgba(255,176,32,.5));
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor; mask-composite: exclude;
+    opacity:.55; transition:opacity .4s ease; pointer-events:none;
+  }
+  .glow-border:hover::before{ opacity:1; }
+
+  /* ---------- tilt cards ---------- */
+  .tilt-card{ transform-style:preserve-3d; transition: transform .12s ease-out, box-shadow .3s ease; will-change:transform; }
+  .tilt-inner{ transform:translateZ(24px); transform-style:preserve-3d; }
+
+  /* ---------- floating ---------- */
+  .float-a{ animation: floaty 6s ease-in-out infinite; }
+  .float-b{ animation: floaty 7.5s ease-in-out infinite; animation-delay:.6s; }
+  @keyframes floaty{ 0%,100%{ transform:translateY(0);} 50%{ transform:translateY(-16px);} }
+
+  .pulse-soft{ animation:pulseSoft 3.2s ease-in-out infinite; }
+  @keyframes pulseSoft{ 0%,100%{ opacity:.55; } 50%{ opacity:1; } }
+
+  /* ---------- reveal on scroll ---------- */
+  .reveal{ opacity:0; transform:translateY(28px); transition:opacity .8s cubic-bezier(.16,.8,.3,1), transform .8s cubic-bezier(.16,.8,.3,1); }
+  .reveal.in-view{ opacity:1; transform:translateY(0); }
+  .reveal-d1{ transition-delay:.08s; } .reveal-d2{ transition-delay:.16s; } .reveal-d3{ transition-delay:.24s; } .reveal-d4{ transition-delay:.32s; }
+
+  /* ---------- nav underline ---------- */
+  .nav-link{ position:relative; }
+  .nav-link::after{ content:''; position:absolute; left:0; bottom:-4px; height:1px; width:0%; background:linear-gradient(90deg,var(--pink),var(--cyan)); transition:width .3s ease; }
+  .nav-link:hover::after{ width:100%; }
+
+  /* ---------- buttons ---------- */
+  .btn-primary{
+    position:relative; overflow:hidden;
+    background:linear-gradient(100deg,var(--pink),var(--violet) 60%, var(--cyan));
+    background-size:180% 180%;
+    color:#0a0910; font-weight:700;
+    transition: background-position .5s ease, transform .25s ease, box-shadow .3s ease;
+  }
+  .btn-primary:hover{ background-position:100% 0; transform:translateY(-2px); box-shadow:0 12px 32px -8px rgba(255,62,165,.45); }
+
+  /* ---------- bento cells ---------- */
+  .bento-cell{ position:relative; border-radius:1.5rem; overflow:hidden; }
+  .bento-noise{
+    position:absolute; inset:0; opacity:.05; pointer-events:none; mix-blend-mode:overlay;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  /* ---------- accordion ---------- */
+  .faq-panel{ max-height:0; overflow:hidden; transition:max-height .5s cubic-bezier(.16,.8,.3,1), opacity .4s ease; opacity:0; }
+  .faq-item.open .faq-panel{ opacity:1; }
+  .faq-chevron{ transition:transform .35s ease; }
+  .faq-item.open .faq-chevron{ transform:rotate(135deg); }
+  .faq-item.open .faq-q{ color:var(--canvas); }
+
+  /* ---------- modal / toast ---------- */
+  #modal-backdrop{ opacity:0; pointer-events:none; transition:opacity .35s ease; }
+  #modal-backdrop.show{ opacity:1; pointer-events:auto; }
+  #modal-card{ opacity:0; transform:translateY(24px) scale(.97); transition:opacity .4s cubic-bezier(.16,.8,.3,1), transform .4s cubic-bezier(.16,.8,.3,1); }
+  #modal-backdrop.show #modal-card{ opacity:1; transform:translateY(0) scale(1); }
+
+  #toast{
+    position:fixed; bottom:28px; left:50%; transform:translate(-50%, 30px); z-index:9998;
+    opacity:0; pointer-events:none; transition:opacity .4s ease, transform .4s cubic-bezier(.16,.8,.3,1);
+  }
+  #toast.show{ opacity:1; transform:translate(-50%, 0); pointer-events:auto; }
+
+  /* ---------- swatch ---------- */
+  .swatch{ transition:transform .25s ease, box-shadow .25s ease; }
+  .swatch[aria-pressed="true"]{ box-shadow:0 0 0 2px var(--ink), 0 0 0 4px var(--gold); transform:scale(1.08); }
+
+  /* frame morph on hero */
+  .frame-bracket{ opacity:0; transition:opacity .6s ease, stroke-dashoffset .9s cubic-bezier(.16,.8,.3,1); stroke-dashoffset:40; }
+  .frame-plaque{ opacity:0; transition:opacity .6s ease .1s, transform .6s cubic-bezier(.16,.8,.3,1) .1s; transform:translateY(8px); }
+  .hero-visual.framed .frame-bracket{ opacity:1; stroke-dashoffset:0; }
+  .hero-visual.framed .frame-plaque{ opacity:1; transform:translateY(0); }
+  .hero-visual.framed .bag-shadow{ opacity:.15; }
+
+  /* scrollbar */
+  ::-webkit-scrollbar{ width:10px; }
+  ::-webkit-scrollbar-track{ background:var(--ink); }
+  ::-webkit-scrollbar-thumb{ background:linear-gradient(var(--pink),var(--violet)); border-radius:8px; }
+
+  @media (prefers-reduced-motion: reduce){
+    *{ animation-duration:.001ms !important; animation-iteration-count:1 !important; transition-duration:.001ms !important; scroll-behavior:auto !important; }
+  }
+
+  @media (max-width: 767px){
+    #cursor-dot, #cursor-ring{ display:none; }
+  }
+
+  .section-eyebrow{ letter-spacing:.22em; }
+  a, button{ -webkit-tap-highlight-color:transparent; }
+  :focus-visible{ outline:2px solid var(--cyan); outline-offset:3px; }
+</style>
+</head>
+<body class="antialiased">
+
+<!-- custom cursor -->
+<div id="cursor-ring" aria-hidden="true"></div>
+<div id="cursor-dot" aria-hidden="true"></div>
+
+<!-- ================= ANNOUNCEMENT MARQUEE ================= -->
+<div class="w-full bg-[#100e19] border-b border-white/10 text-[12px] sm:text-[13px] tracking-wide overflow-hidden select-none">
+  <div class="marquee-track py-2.5">
+    <div class="marquee-item">
+      <span class="marquee-dot"></span>
+      <span class="text-[color:var(--canvas-dim)]">100% biodegradable · unbleached cotton canvas</span>
+    </div>
+    <div class="marquee-item">
+      <span class="marquee-dot"></span>
+      <span class="grad-gc font-semibold">Carries 10kg+ today. Frames as art tomorrow.</span>
+    </div>
+    <div class="marquee-item">
+      <span class="marquee-dot"></span>
+      <span class="text-[color:var(--canvas-dim)]">Dhaka pilot batch — only 7 pieces</span>
+    </div>
+    <div class="marquee-item">
+      <span class="marquee-dot"></span>
+      <span class="grad-pv font-semibold">Reserve now for ৳350</span>
+    </div>
+    <!-- duplicate for seamless loop -->
+    <div class="marquee-item">
+      <span class="marquee-dot"></span>
+      <span class="text-[color:var(--canvas-dim)]">100% biodegradable · unbleached cotton canvas</span>
+    </div>
+    <div class="marquee-item">
+      <span class="marquee-dot"></span>
+      <span class="grad-gc font-semibold">Carries 10kg+ today. Frames as art tomorrow.</span>
+    </div>
+    <div class="marquee-item">
+      <span class="marquee-dot"></span>
+      <span class="text-[color:var(--canvas-dim)]">Dhaka pilot batch — only 7 pieces</span>
+    </div>
+    <div class="marquee-item">
+      <span class="marquee-dot"></span>
+      <span class="grad-pv font-semibold">Reserve now for ৳350</span>
+    </div>
+  </div>
+</div>
+
+<!-- ================= NAVBAR ================= -->
+<header class="sticky top-0 z-50">
+  <nav class="glass-strong">
+    <div class="max-w-7xl mx-auto px-5 sm:px-8 h-[68px] flex items-center justify-between">
+      <a href="#top" class="font-display text-[22px] sm:text-[24px] tracking-tight">
+        My bag<span class="grad-pv">.</span>
+      </a>
+
+      <div class="hidden md:flex items-center gap-9 text-[14px] font-medium text-[color:var(--canvas-dim)]">
+        <a href="#bag" class="nav-link hover:text-[color:var(--canvas)]">The Bag</a>
+        <a href="#why" class="nav-link hover:text-[color:var(--canvas)]">Why It Works</a>
+        <a href="#reserve" class="nav-link hover:text-[color:var(--canvas)]">Pricing</a>
+        <a href="#faq" class="nav-link hover:text-[color:var(--canvas)]">FAQ</a>
+      </div>
+
+      <div class="flex items-center gap-3">
+        <button id="nav-buy" class="hidden sm:inline-flex btn-primary rounded-full px-5 py-2.5 text-[13px] tracking-wide">
+          Reserve 7-Piece Batch
+        </button>
+        <button id="menu-toggle" aria-label="Toggle menu" class="md:hidden w-10 h-10 grid place-items-center rounded-full border border-white/15">
+          <svg id="menu-icon" width="18" height="14" viewBox="0 0 18 14" fill="none">
+            <path d="M0 1H18" stroke="var(--canvas)" stroke-width="1.5"/>
+            <path d="M0 7H18" stroke="var(--canvas)" stroke-width="1.5"/>
+            <path d="M0 13H18" stroke="var(--canvas)" stroke-width="1.5"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- mobile menu -->
+    <div id="mobile-menu" class="md:hidden max-h-0 overflow-hidden transition-[max-height] duration-500 ease-out border-t border-white/10">
+      <div class="flex flex-col px-6 py-5 gap-4 text-[15px]">
+        <a href="#bag" class="mobile-link">The Bag</a>
+        <a href="#why" class="mobile-link">Why It Works</a>
+        <a href="#reserve" class="mobile-link">Pricing</a>
+        <a href="#faq" class="mobile-link">FAQ</a>
+        <button class="nav-buy-trigger btn-primary rounded-full px-5 py-3 text-[13px] font-semibold mt-1">Reserve 7-Piece Batch</button>
+      </div>
+    </div>
+  </nav>
+</header>
+
+<main id="top">
+
+<!-- ================= HERO ================= -->
+<section class="relative max-w-7xl mx-auto px-5 sm:px-8 pt-16 sm:pt-24 pb-24 grid lg:grid-cols-[1.05fr_.95fr] gap-14 items-center">
+
+  <div>
+    <div class="reveal inline-flex items-center gap-2 rounded-full glass px-4 py-1.5 text-[11px] section-eyebrow uppercase text-[color:var(--canvas-dim)]">
+      <span class="w-1.5 h-1.5 rounded-full bg-[color:var(--gold)] pulse-soft"></span>
+      Unbleached canvas · Dhaka pilot batch
+    </div>
+
+    <h1 class="reveal reveal-d1 font-display text-[42px] leading-[1.05] sm:text-[58px] sm:leading-[1.04] lg:text-[66px] lg:leading-[1.02] mt-6 tracking-tight">
+      From Campus <span class="grad-pv">Street</span><br class="hidden sm:block">
+      to <span class="grad-gc italic">Gallery</span> Wall
+    </h1>
+
+    <p class="reveal reveal-d2 mt-6 text-[16px] sm:text-[17px] leading-relaxed text-[color:var(--canvas-dim)] max-w-[46ch]">
+      One heavy cotton canvas bag, two lives. Load it with laptops, books and market runs for years — then unstitch, stretch it over a frame, and hang the creases as abstract wall art. Undyed. Unbleached. Fully biodegradable.
+    </p>
+
+    <div class="reveal reveal-d3 mt-9 flex flex-wrap items-center gap-4">
+      <button class="nav-buy-trigger btn-primary rounded-full px-7 py-3.5 text-[14px] tracking-wide">
+        Reserve for ৳350
+      </button>
+      <a href="#why" class="inline-flex items-center gap-2 text-[14px] font-medium text-[color:var(--canvas)] group">
+        See how it holds 10kg+
+        <span class="inline-block transition-transform group-hover:translate-x-1">→</span>
+      </a>
+    </div>
+
+    <div class="reveal reveal-d4 mt-12 flex items-center gap-8 text-[13px] text-[color:var(--canvas-dim)]">
+      <div><span class="font-display text-2xl text-[color:var(--canvas)]">10kg+</span><br>daily load</div>
+      <div class="w-px h-9 bg-white/10"></div>
+      <div><span class="font-display text-2xl text-[color:var(--canvas)]">100%</span><br>biodegradable</div>
+      <div class="w-px h-9 bg-white/10"></div>
+      <div><span class="font-display text-2xl text-[color:var(--canvas)]">7</span><br>pieces, pilot batch</div>
+    </div>
+  </div>
+
+  <!-- hero interactive visual: bag <-> framed art morph -->
+  <div class="reveal reveal-d2 relative flex justify-center lg:justify-end">
+    <div id="hero-visual" class="hero-visual tilt-card relative w-[300px] sm:w-[360px] cursor-pointer select-none" title="Hover or tap to see it framed">
+      <div class="tilt-inner">
+        <svg viewBox="0 0 340 400" class="w-full h-auto float-a drop-shadow-[0_30px_60px_rgba(0,0,0,0.55)]">
+          <defs>
+            <linearGradient id="canvasGrad" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#f2ecdf"/>
+              <stop offset="100%" stop-color="#d9d0ba"/>
+            </linearGradient>
+            <linearGradient id="glowStroke" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="var(--pink)"/>
+              <stop offset="45%" stop-color="var(--violet)"/>
+              <stop offset="75%" stop-color="var(--cyan)"/>
+              <stop offset="100%" stop-color="var(--gold)"/>
+            </linearGradient>
+            <filter id="grain">
+              <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" result="n"/>
+              <feColorMatrix in="n" type="saturate" values="0"/>
+              <feComponentTransfer><feFuncA type="linear" slope="0.05"/></feComponentTransfer>
+              <feComposite operator="over" in2="SourceGraphic"/>
+            </filter>
+          </defs>
+
+          <ellipse class="bag-shadow" cx="170" cy="365" rx="95" ry="14" fill="rgba(0,0,0,0.4)" style="transition:opacity .6s ease"/>
+
+          <!-- straps -->
+          <path d="M110 108 C110 40, 230 40, 230 108" fill="none" stroke="#c9c2b0" stroke-width="10" stroke-linecap="round"/>
+          <path d="M110 108 C110 40, 230 40, 230 108" fill="none" stroke="url(#canvasGrad)" stroke-width="6" stroke-linecap="round"/>
+
+          <!-- bag body -->
+          <path d="M78 118 L262 118 L246 350 Q170 372 94 350 Z" fill="url(#canvasGrad)" filter="url(#grain)" stroke="#0000001a" stroke-width="1"/>
+          <!-- stitching -->
+          <path d="M90 130 L250 130" stroke="#0a0910" stroke-opacity="0.18" stroke-width="2" stroke-dasharray="3 5"/>
+          <path d="M86 320 L254 320" stroke="#0a0910" stroke-opacity="0.14" stroke-width="2" stroke-dasharray="3 5"/>
+          <path d="M78 118 L262 118 L246 350 Q170 372 94 350 Z" fill="none" stroke="#0a0910" stroke-opacity="0.12" stroke-width="1.5" stroke-dasharray="2 4"/>
+
+          <!-- tag -->
+          <rect x="152" y="150" width="36" height="20" rx="3" fill="#0a0910" opacity=".78"/>
+          <text x="170" y="164" text-anchor="middle" font-family="Plus Jakarta Sans" font-size="8" fill="#ede6d6" letter-spacing="1">MY BAG</text>
+
+          <!-- museum frame brackets (appear on hover/tap) -->
+          <g stroke="url(#glowStroke)" stroke-width="3" fill="none" stroke-linecap="round">
+            <path class="frame-bracket" d="M40 40 L40 90 M40 40 L90 40" stroke-dasharray="80"/>
+            <path class="frame-bracket" d="M300 40 L300 90 M300 40 L250 40" stroke-dasharray="80"/>
+            <path class="frame-bracket" d="M40 380 L40 330 M40 380 L90 380" stroke-dasharray="80"/>
+            <path class="frame-bracket" d="M300 380 L300 330 M300 380 L250 380" stroke-dasharray="80"/>
+          </g>
+          <g class="frame-plaque">
+            <rect x="120" y="386" width="100" height="1" fill="var(--gold)"/>
+            <text x="170" y="398" text-anchor="middle" font-family="Playfair Display" font-style="italic" font-size="11" fill="var(--canvas-dim)">No. 03 — Unbleached Study</text>
+          </g>
+        </svg>
+      </div>
+      <p class="text-center text-[11px] text-[color:var(--canvas-dim)] mt-3 tracking-wide uppercase">tap the bag — watch it hang</p>
+    </div>
+
+    <div class="hidden sm:block absolute -bottom-6 -left-10 w-28 h-28 rounded-full blur-3xl opacity-40" style="background:radial-gradient(circle, var(--pink), transparent 70%)"></div>
+    <div class="hidden sm:block absolute -top-8 -right-4 w-32 h-32 rounded-full blur-3xl opacity-30" style="background:radial-gradient(circle, var(--cyan), transparent 70%)"></div>
+  </div>
+</section>
+
+<!-- ================= BENTO FEATURES ================= -->
+<section id="why" class="max-w-7xl mx-auto px-5 sm:px-8 py-20 sm:py-28">
+  <div class="reveal max-w-xl mb-12">
+    <p class="section-eyebrow uppercase text-[12px] text-[color:var(--gold)] mb-3">Why it works</p>
+    <h2 class="font-display text-[32px] sm:text-[42px] leading-tight">Built like luggage. <span class="grad-all italic">Retires like art.</span></h2>
+  </div>
+
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 lg:grid-rows-2 gap-5">
+
+    <!-- big cell: 10kg capacity -->
+    <div class="reveal bento-cell tilt-card glow-border glass p-8 sm:col-span-2 lg:col-span-2 lg:row-span-2 flex flex-col justify-between min-h-[280px]">
+      <div class="bento-noise"></div>
+      <div class="tilt-inner relative">
+        <span class="text-[13px] text-[color:var(--canvas-dim)] section-eyebrow uppercase">Structural capacity</span>
+        <h3 class="font-display text-[54px] sm:text-[64px] mt-3 grad-gc leading-none">10kg+</h3>
+        <p class="text-[15px] text-[color:var(--canvas-dim)] mt-4 max-w-[38ch]">Box-stitched base and bar-tacked handles carry two laptops, a stack of books, and your groceries home — every single day, for years.</p>
+      </div>
+      <div class="tilt-inner relative mt-8 flex gap-2">
+        <div class="h-1.5 flex-1 rounded-full bg-white/10 overflow-hidden"><div class="h-full w-[92%] rounded-full" style="background:linear-gradient(90deg,var(--pink),var(--gold))"></div></div>
+        <span class="text-[11px] text-[color:var(--canvas-dim)] whitespace-nowrap">stress-tested</span>
+      </div>
+    </div>
+
+    <!-- biodegradable -->
+    <div class="reveal reveal-d1 bento-cell tilt-card glow-border glass p-7 lg:col-span-2 min-h-[180px] flex flex-col justify-between">
+      <div class="bento-noise"></div>
+      <div class="tilt-inner relative">
+        <span class="text-[13px] text-[color:var(--canvas-dim)] section-eyebrow uppercase">End of life</span>
+        <h3 class="font-display text-[22px] mt-2">100% biodegradable canvas</h3>
+      </div>
+      <div class="tilt-inner relative flex items-center gap-3 mt-4 text-[12px] text-[color:var(--canvas-dim)]">
+        <span>Unbleached cotton</span><span class="opacity-40">→</span><span>Undyed fibers</span><span class="opacity-40">→</span><span class="grad-pv font-semibold">Home compost</span>
+      </div>
+    </div>
+
+    <!-- dual life -->
+    <div class="reveal reveal-d2 bento-cell tilt-card glow-border glass p-7 min-h-[180px] flex flex-col justify-between">
+      <div class="bento-noise"></div>
+      <div class="tilt-inner relative">
+        <span class="text-[13px] text-[color:var(--canvas-dim)] section-eyebrow uppercase">Second life</span>
+        <h3 class="font-display text-[20px] mt-2">Stretch it. Frame it.</h3>
+        <p class="text-[13px] text-[color:var(--canvas-dim)] mt-2">Your creases and wear-lines become the artwork.</p>
+      </div>
+    </div>
+
+    <!-- limited batch -->
+    <div class="reveal reveal-d3 bento-cell tilt-card glow-border glass p-7 min-h-[180px] flex flex-col justify-between">
+      <div class="bento-noise"></div>
+      <div class="tilt-inner relative">
+        <span class="text-[13px] text-[color:var(--canvas-dim)] section-eyebrow uppercase">Pilot run</span>
+        <h3 class="font-display text-[42px] grad-pv mt-2 leading-none">7</h3>
+        <p class="text-[13px] text-[color:var(--canvas-dim)] mt-2">Hand-stitched by a Dhaka cooperative, one small batch at a time.</p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ================= PRODUCT / PRICING ================= -->
+<section id="reserve" class="relative py-20 sm:py-28 border-t border-white/10">
+  <div class="max-w-7xl mx-auto px-5 sm:px-8 grid lg:grid-cols-2 gap-14 items-center">
+
+    <!-- product visual w/ variant selector -->
+    <div id="bag" class="reveal flex flex-col items-center">
+      <div class="tilt-card relative w-[260px] sm:w-[300px]">
+        <div class="tilt-inner">
+          <svg viewBox="0 0 260 300" class="w-full h-auto float-b drop-shadow-[0_24px_50px_rgba(0,0,0,0.5)]">
+            <path d="M84 82 C84 30, 176 30, 176 82" fill="none" stroke="var(--bag-fill,#ede6d6)" stroke-width="9" stroke-linecap="round" style="transition:stroke .4s ease"/>
+            <path d="M58 90 L202 90 L188 268 Q130 288 72 268 Z" fill="var(--bag-fill,#ede6d6)" style="transition:fill .4s ease"/>
+            <path d="M58 90 L202 90 L188 268 Q130 288 72 268 Z" fill="none" stroke="#0a0910" stroke-opacity="0.14" stroke-width="1.5" stroke-dasharray="2 4"/>
+            <path d="M68 100 L192 100" stroke="#0a0910" stroke-opacity="0.15" stroke-width="1.5" stroke-dasharray="3 5"/>
+          </svg>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-4 mt-6">
+        <button class="swatch w-8 h-8 rounded-full" aria-pressed="true" data-color="#ede6d6" style="background:#ede6d6" aria-label="Unbleached Natural"></button>
+        <button class="swatch w-8 h-8 rounded-full" aria-pressed="false" data-color="#4a4650" style="background:#4a4650" aria-label="Ash Charcoal"></button>
+        <button class="swatch w-8 h-8 rounded-full" aria-pressed="false" data-color="#b5613f" style="background:#b5613f" aria-label="Rust Clay"></button>
+      </div>
+      <p id="swatch-label" class="text-[13px] text-[color:var(--canvas-dim)] mt-3 tracking-wide">Unbleached Natural</p>
+    </div>
+
+    <!-- pricing card -->
+    <div class="reveal reveal-d1 glow-border glass-strong rounded-[2rem] p-8 sm:p-10">
+      <div class="flex items-center justify-between">
+        <span class="section-eyebrow uppercase text-[12px] text-[color:var(--gold)]">Dhaka pilot launch</span>
+        <span class="text-[11px] text-[color:var(--canvas-dim)] border border-white/15 rounded-full px-3 py-1">3 of 7 left</span>
+      </div>
+
+      <div class="flex items-end gap-3 mt-5">
+        <span class="font-display text-[56px] sm:text-[64px] leading-none grad-all">৳350</span>
+        <span class="text-[16px] text-[color:var(--canvas-dim)] line-through mb-2">৳900</span>
+      </div>
+      <p class="text-[13px] text-[color:var(--canvas-dim)] mt-2">Reserve now, pay on pickup or delivery in Dhaka.</p>
+
+      <ul class="mt-7 space-y-3 text-[14px]">
+        <li class="flex items-center gap-3"><span class="w-1.5 h-1.5 rounded-full" style="background:var(--pink)"></span>14×16×4 in, 10kg+ rated capacity</li>
+        <li class="flex items-center gap-3"><span class="w-1.5 h-1.5 rounded-full" style="background:var(--violet)"></span>Reinforced base &amp; bar-tacked straps</li>
+        <li class="flex items-center gap-3"><span class="w-1.5 h-1.5 rounded-full" style="background:var(--cyan)"></span>Unbleached, undyed, 100% biodegradable</li>
+        <li class="flex items-center gap-3"><span class="w-1.5 h-1.5 rounded-full" style="background:var(--gold)"></span>Fits a standard 16×20 in frame when retired</li>
+      </ul>
+
+      <div class="flex items-center gap-4 mt-8">
+        <div class="flex items-center border border-white/15 rounded-full overflow-hidden">
+          <button id="qty-minus" class="w-10 h-11 grid place-items-center hover:bg-white/5" aria-label="Decrease quantity">−</button>
+          <span id="qty-value" class="w-8 text-center text-[14px]">1</span>
+          <button id="qty-plus" class="w-10 h-11 grid place-items-center hover:bg-white/5" aria-label="Increase quantity">+</button>
+        </div>
+        <button class="nav-buy-trigger btn-primary flex-1 rounded-full py-3.5 text-[14px] tracking-wide">Buy Now</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= FAQ ================= -->
+<section id="faq" class="max-w-4xl mx-auto px-5 sm:px-8 py-20 sm:py-28 border-t border-white/10">
+  <div class="reveal mb-10">
+    <p class="section-eyebrow uppercase text-[12px] text-[color:var(--gold)] mb-3">Questions</p>
+    <h2 class="font-display text-[32px] sm:text-[40px]">Before you reserve</h2>
+  </div>
+
+  <div class="space-y-3" id="faq-list">
+    <!-- items injected via markup below -->
+    <div class="faq-item reveal glass rounded-2xl px-6" data-open="false">
+      <button class="faq-trigger w-full flex items-center justify-between py-5 text-left">
+        <span class="faq-q text-[15px] sm:text-[16px] font-medium text-[color:var(--canvas-dim)]">Is the canvas really biodegradable?</span>
+        <span class="faq-chevron text-xl text-[color:var(--gold)]">+</span>
+      </button>
+      <div class="faq-panel">
+        <p class="pb-5 text-[14px] text-[color:var(--canvas-dim)] leading-relaxed">Yes. It's 100% unbleached, undyed cotton canvas with no synthetic coating, so it composts in a home bin within roughly five months depending on conditions.</p>
+      </div>
+    </div>
+
+    <div class="faq-item reveal glass rounded-2xl px-6" data-open="false">
+      <button class="faq-trigger w-full flex items-center justify-between py-5 text-left">
+        <span class="faq-q text-[15px] sm:text-[16px] font-medium text-[color:var(--canvas-dim)]">How do I turn my bag into wall art?</span>
+        <span class="faq-chevron text-xl text-[color:var(--gold)]">+</span>
+      </button>
+      <div class="faq-panel">
+        <p class="pb-5 text-[14px] text-[color:var(--canvas-dim)] leading-relaxed">Once it's earned its wear, remove the straps, stretch the canvas over a standard 16×20 in frame, and let the creases, stains and stitch-lines from daily use become the composition.</p>
+      </div>
+    </div>
+
+    <div class="faq-item reveal glass rounded-2xl px-6" data-open="false">
+      <button class="faq-trigger w-full flex items-center justify-between py-5 text-left">
+        <span class="faq-q text-[15px] sm:text-[16px] font-medium text-[color:var(--canvas-dim)]">How much can it actually carry?</span>
+        <span class="faq-chevron text-xl text-[color:var(--gold)]">+</span>
+      </button>
+      <div class="faq-panel">
+        <p class="pb-5 text-[14px] text-[color:var(--canvas-dim)] leading-relaxed">It's rated for 10kg and up. The base is box-stitched and the handles are bar-tacked, so it holds laptops, textbooks and market loads without sagging.</p>
+      </div>
+    </div>
+
+    <div class="faq-item reveal glass rounded-2xl px-6" data-open="false">
+      <button class="faq-trigger w-full flex items-center justify-between py-5 text-left">
+        <span class="faq-q text-[15px] sm:text-[16px] font-medium text-[color:var(--canvas-dim)]">What sizes and colors are available?</span>
+        <span class="faq-chevron text-xl text-[color:var(--gold)]">+</span>
+      </button>
+      <div class="faq-panel">
+        <p class="pb-5 text-[14px] text-[color:var(--canvas-dim)] leading-relaxed">One size — 14×16×4 in — in three natural tones: Unbleached Natural, mineral-dyed Ash Charcoal, and iron-oxide Rust Clay.</p>
+      </div>
+    </div>
+
+    <div class="faq-item reveal glass rounded-2xl px-6" data-open="false">
+      <button class="faq-trigger w-full flex items-center justify-between py-5 text-left">
+        <span class="faq-q text-[15px] sm:text-[16px] font-medium text-[color:var(--canvas-dim)]">Why only 7 pieces in this batch?</span>
+        <span class="faq-chevron text-xl text-[color:var(--gold)]">+</span>
+      </button>
+      <div class="faq-panel">
+        <p class="pb-5 text-[14px] text-[color:var(--canvas-dim)] leading-relaxed">This is a pilot run stitched by a small Dhaka cooperative, kept intentionally small so every seam gets checked by hand before we scale up.</p>
+      </div>
+    </div>
+
+    <div class="faq-item reveal glass rounded-2xl px-6" data-open="false">
+      <button class="faq-trigger w-full flex items-center justify-between py-5 text-left">
+        <span class="faq-q text-[15px] sm:text-[16px] font-medium text-[color:var(--canvas-dim)]">How do I pay and receive it?</span>
+        <span class="faq-chevron text-xl text-[color:var(--gold)]">+</span>
+      </button>
+      <div class="faq-panel">
+        <p class="pb-5 text-[14px] text-[color:var(--canvas-dim)] leading-relaxed">Reserve here with your name and number, then pay ৳350 via bKash or Nagad on pickup, or arrange delivery within Dhaka.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- ================= FOOTER ================= -->
+<footer class="border-t border-white/10">
+  <div class="max-w-7xl mx-auto px-5 sm:px-8 py-14 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-8">
+    <div>
+      <p class="font-display text-[22px]">My bag<span class="grad-pv">.</span></p>
+      <p class="text-[13px] text-[color:var(--canvas-dim)] mt-2 max-w-[38ch]">Cotton canvas totes, hand-stitched in Dhaka. One life on your shoulder, another on your wall.</p>
+    </div>
+    <div class="flex gap-8 text-[13px] text-[color:var(--canvas-dim)]">
+      <a href="#bag" class="hover:text-[color:var(--canvas)]">The Bag</a>
+      <a href="#reserve" class="hover:text-[color:var(--canvas)]">Pricing</a>
+      <a href="#faq" class="hover:text-[color:var(--canvas)]">FAQ</a>
+    </div>
+  </div>
+  <div class="border-t border-white/10 py-6 px-5 sm:px-8 text-center text-[12px] text-[color:var(--canvas-dim)]">
+    © 2026 My bag. All rights reserved. Dhaka, Bangladesh.
+  </div>
+</footer>
+
+<!-- ================= MODAL: RESERVE / BUY NOW ================= -->
+<div id="modal-backdrop" class="fixed inset-0 z-[9990] bg-black/70 backdrop-blur-sm flex items-center justify-center px-5">
+  <div id="modal-card" class="glow-border glass-strong rounded-[1.75rem] w-full max-w-md p-8 relative">
+    <button id="modal-close" aria-label="Close" class="absolute top-5 right-5 w-8 h-8 grid place-items-center rounded-full border border-white/15 hover:bg-white/10">✕</button>
+
+    <p class="section-eyebrow uppercase text-[11px] text-[color:var(--gold)] mb-2">Reserve your bag</p>
+    <h3 class="font-display text-[26px] mb-1">Hold it for ৳350</h3>
+    <p class="text-[13px] text-[color:var(--canvas-dim)] mb-6">We'll confirm by phone within a day. Pay only on pickup or delivery.</p>
+
+    <form id="reserve-form" class="space-y-4">
+      <div>
+        <label class="text-[12px] text-[color:var(--canvas-dim)] block mb-1.5">Full name</label>
+        <input required type="text" placeholder="Your name" class="w-full bg-white/5 border border-white/15 rounded-xl px-4 py-3 text-[14px] outline-none focus:border-[color:var(--cyan)] transition-colors">
+      </div>
+      <div>
+        <label class="text-[12px] text-[color:var(--canvas-dim)] block mb-1.5">Phone number</label>
+        <input required type="tel" placeholder="01XXXXXXXXX" class="w-full bg-white/5 border border-white/15 rounded-xl px-4 py-3 text-[14px] outline-none focus:border-[color:var(--cyan)] transition-colors">
+      </div>
+      <button type="submit" class="btn-primary w-full rounded-full py-3.5 text-[14px] tracking-wide mt-2">Confirm Reservation</button>
+    </form>
+  </div>
+</div>
+
+<!-- ================= TOAST ================= -->
+<div id="toast" class="glow-border glass-strong rounded-2xl px-6 py-4 flex items-center gap-3 max-w-[92vw]">
+  <span class="w-2 h-2 rounded-full" style="background:var(--gold); box-shadow:0 0 10px var(--gold)"></span>
+  <span class="text-[14px]">Reserved! We'll reach out on WhatsApp shortly.</span>
+</div>
+
+<script>
+(function(){
+  "use strict";
+
+  /* ---------- custom cursor ---------- */
+  var isFine = window.matchMedia && window.matchMedia('(pointer:fine)').matches;
+  var dot = document.getElementById('cursor-dot');
+  var ring = document.getElementById('cursor-ring');
+  if(isFine){
+    document.body.classList.add('has-custom-cursor');
+    var mx=0,my=0,rx=0,ry=0;
+    window.addEventListener('mousemove', function(e){
+      mx=e.clientX; my=e.clientY;
+      dot.style.transform = 'translate('+mx+'px,'+my+'px) translate(-50%,-50%)';
+    });
+    (function loop(){
+      rx += (mx-rx)*0.14; ry += (my-ry)*0.14;
+      ring.style.transform = 'translate('+rx+'px,'+ry+'px) translate(-50%,-50%)';
+      requestAnimationFrame(loop);
+    })();
+    document.querySelectorAll('a, button, .tilt-card, .swatch').forEach(function(el){
+      el.addEventListener('mouseenter', function(){ document.body.classList.add('cursor-grow'); });
+      el.addEventListener('mouseleave', function(){ document.body.classList.remove('cursor-grow'); });
+    });
+  } else {
+    dot.style.display='none'; ring.style.display='none';
+  }
+
+  /* ---------- 3D tilt ---------- */
+  document.querySelectorAll('.tilt-card').forEach(function(card){
+    var rectCache;
+    function onMove(e){
+      rectCache = card.getBoundingClientRect();
+      var px = ((e.clientX - rectCache.left) / rectCache.width) - 0.5;
+      var py = ((e.clientY - rectCache.top) / rectCache.height) - 0.5;
+      var rotY = px * 14;
+      var rotX = py * -14;
+      card.style.transform = 'perspective(900px) rotateX('+rotX+'deg) rotateY('+rotY+'deg)';
+    }
+    function onLeave(){
+      card.style.transform = 'perspective(900px) rotateX(0deg) rotateY(0deg)';
+    }
+    card.addEventListener('mousemove', onMove);
+    card.addEventListener('mouseleave', onLeave);
+  });
+
+  /* ---------- hero bag <-> frame morph ---------- */
+  var heroVisual = document.getElementById('hero-visual');
+  if(window.matchMedia('(hover: hover)').matches){
+    heroVisual.addEventListener('mouseenter', function(){ heroVisual.classList.add('framed'); });
+    heroVisual.addEventListener('mouseleave', function(){ heroVisual.classList.remove('framed'); });
+  }
+  heroVisual.addEventListener('click', function(){ heroVisual.classList.toggle('framed'); });
+
+  /* ---------- reveal on scroll ---------- */
+  var revealEls = document.querySelectorAll('.reveal');
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(entry){
+      if(entry.isIntersecting){
+        entry.target.classList.add('in-view');
+        io.unobserve(entry.target);
+      }
+    });
+  }, { threshold:0.15 });
+  revealEls.forEach(function(el){ io.observe(el); });
+
+  /* ---------- mobile menu ---------- */
+  var menuToggle = document.getElementById('menu-toggle');
+  var mobileMenu = document.getElementById('mobile-menu');
+  var menuOpen = false;
+  menuToggle.addEventListener('click', function(){
+    menuOpen = !menuOpen;
+    mobileMenu.style.maxHeight = menuOpen ? mobileMenu.scrollHeight+'px' : '0px';
+  });
+  document.querySelectorAll('#mobile-menu a').forEach(function(a){
+    a.addEventListener('click', function(){ menuOpen=false; mobileMenu.style.maxHeight='0px'; });
+  });
+
+  /* ---------- FAQ accordion ---------- */
+  document.querySelectorAll('.faq-item').forEach(function(item){
+    var trigger = item.querySelector('.faq-trigger');
+    var panel = item.querySelector('.faq-panel');
+    trigger.addEventListener('click', function(){
+      var isOpen = item.classList.contains('open');
+      document.querySelectorAll('.faq-item.open').forEach(function(openItem){
+        if(openItem!==item){
+          openItem.classList.remove('open');
+          openItem.querySelector('.faq-panel').style.maxHeight = '0px';
+        }
+      });
+      if(isOpen){
+        item.classList.remove('open');
+        panel.style.maxHeight = '0px';
+      } else {
+        item.classList.add('open');
+        panel.style.maxHeight = panel.scrollHeight+'px';
+      }
+    });
+  });
+
+  /* ---------- variant swatches ---------- */
+  var swatchLabel = document.getElementById('swatch-label');
+  var swatchNames = { '#ede6d6':'Unbleached Natural', '#4a4650':'Ash Charcoal', '#b5613f':'Rust Clay' };
+  document.querySelectorAll('.swatch').forEach(function(sw){
+    sw.addEventListener('click', function(){
+      document.querySelectorAll('.swatch').forEach(function(s){ s.setAttribute('aria-pressed','false'); });
+      sw.setAttribute('aria-pressed','true');
+      var color = sw.getAttribute('data-color');
+      document.documentElement.style.setProperty('--bag-fill', color);
+      swatchLabel.textContent = swatchNames[color] || '';
+    });
+  });
+
+  /* ---------- quantity ---------- */
+  var qtyVal = document.getElementById('qty-value');
+  var qty = 1;
+  document.getElementById('qty-minus').addEventListener('click', function(){
+    qty = Math.max(1, qty-1); qtyVal.textContent = qty;
+  });
+  document.getElementById('qty-plus').addEventListener('click', function(){
+    qty = Math.min(7, qty+1); qtyVal.textContent = qty;
+  });
+
+  /* ---------- modal ---------- */
+  var backdrop = document.getElementById('modal-backdrop');
+  function openModal(){ backdrop.classList.add('show'); document.body.style.overflow='hidden'; }
+  function closeModal(){ backdrop.classList.remove('show'); document.body.style.overflow=''; }
+
+  document.querySelectorAll('.nav-buy-trigger').forEach(function(btn){
+    btn.addEventListener('click', openModal);
+  });
+  document.getElementById('modal-close').addEventListener('click', closeModal);
+  backdrop.addEventListener('click', function(e){ if(e.target===backdrop) closeModal(); });
+  document.addEventListener('keydown', function(e){ if(e.key==='Escape') closeModal(); });
+
+  /* ---------- reserve form -> toast ---------- */
+  var toast = document.getElementById('toast');
+  var toastTimer;
+  document.getElementById('reserve-form').addEventListener('submit', function(e){
+    e.preventDefault();
+    closeModal();
+    e.target.reset();
+    toast.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(function(){ toast.classList.remove('show'); }, 4200);
+  });
+
+})();
+</script>
+</body>
+</html>
