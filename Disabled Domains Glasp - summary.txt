@@ -1,0 +1,12 @@
+Disabled Domains | Glasp
+https://glasp.co/disabled-domains
+
+• Highlighting disabled on certain domains: To avoid accidental highlights on sensitive platforms like Google docs, Gmail, or banking sites, the Glasp Extension is turned off — visit other websites to highlight.
+• Sign-in verification: Ensure you're signed into the Glasp Extension to enable highlighting features — check your login status.
+• Page refresh recommended: If highlighting isn't working, try refreshing or performing a hard refresh of the page — this can resolve temporary glitches.
+• Select and right-click to highlight: Highlighting requires selecting text, then right-clicking and choosing "Highlight Text" — follow these steps for success.
+• PDF files need upload: If working with local PDFs, upload them to Glasp before highlighting — direct highlighting on local files isn't supported.
+• Extension conflicts: Other browser extensions might block Glasp — disable or troubleshoot extensions to improve functionality.
+• Reinstall Glasp if issues persist: Uninstall and reinstall the extension if problems continue — this can resolve persistent errors.
+• Use FAQs for additional help: Check Glasp's FAQs for common issues and troubleshooting tips — available on their support page.
+• Contact support for unresolved issues: If problems remain, reach out via hi@glasp.co for assistance — providing detailed descriptions helps resolve issues faster.
