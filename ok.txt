@@ -1,0 +1,14 @@
+# 🚀 Architecting Foundations: My Day-01 Hands-On Journey into AI & Data Engineering
+
+Today marked the official kickoff of my hands-on engineering roadmap, focusing deeply on bridging modern AI architectures with robust data engineering practices. Instead of just reading theory, I rolled up my sleeves and built a **Local RAG (Retrieval-Augmented Generation) Pipeline from scratch**.
+
+Here is a quick breakdown of what I implemented and learned today:
+
+* **Governed Local Corpus Curation:** Architected a structured local knowledge repository designed to handle domain-specific data securely and efficiently, ensuring clear data provenance from the get-go.
+* **Deterministic Golden Dataset Engineering:** Curated and hand-labelled 20 real-world user queries mapped directly to their ground-truth source files (`questions.jsonl`). This sets up a strict, deterministic evaluation benchmark rather than relying on guesswork.
+* **Retrieval Contracts & Guardrails:** Designed comprehensive system boundaries, operational scopes, and data freshness rules. This enforces zero-hallucination guardrails, ensuring that any generated response strictly traces back to verified local sources.
+* **Modular Pipeline Setup:** Initialized a clean, production-grade repository structure, configured execution scripts, and verified local retrieval performance, achieving a solid baseline.
+
+This hands-on exercise really highlighted how crucial strict data governance and deterministic evaluation are before introducing any large language model into a stack. Excited to keep building on this momentum and dive deeper into vector indexing and evaluation in the upcoming modules. 
+
+#nahidmahmud555 #RAG #DataEngineering #AI #LearningJourney
